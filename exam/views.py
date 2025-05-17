@@ -123,7 +123,6 @@ def quiz_submit_view(request, quiz_id):
 	    score=score,
 	    answers=answers,
 	)
-	send_quiz_response_email(request.user, quiz_id, quiz_result)
 
 	if 'quiz_answers' in request.session:
 	    del request.session['quiz_answers']
