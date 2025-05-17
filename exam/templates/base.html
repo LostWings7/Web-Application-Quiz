@@ -1,0 +1,272 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz System</title>
+		<link rel="stylesheet" href="{% static 'bar.css' %}">
+	<style>
+.gg-readme {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  transform: scale(var(--ggs, 1));
+  width: 2px;
+  height: 17px;
+  border-bottom: 4px solid;
+  border-radius: 4px;
+}
+.gg-readme::after,
+.gg-readme::before {
+  content: "";
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  width: 8px;
+  height: 12px;
+  box-shadow: 0 0 0 2px;
+  border-radius: 1px;
+  bottom: -1px;
+  background:
+    linear-gradient(to left, currentColor 4px, transparent 0) no-repeat center
+      5px/4px 2px,
+    linear-gradient(to left, currentColor 4px, transparent 0) no-repeat center
+      2px/4px 2px,
+    linear-gradient(to left, currentColor 4px, transparent 0) no-repeat center
+      8px/4px 2px;
+}
+.gg-readme::before {
+  border-top-right-radius: 3px;
+  left: -8px;
+}
+.gg-readme::after {
+  border-top-left-radius: 3px;
+  right: -8px;
+}
+
+html,body{
+	background-color: #111111;
+	color: white;
+	font-family: Arial, sans-serif;
+	overflow-y: auto;
+}
+
+.question-box{
+	background-color: #2b2b2b;
+	padding: 20px;
+	border-radius: 20px;
+	border-left: 4px solid limegreen;
+	box-shadow: 0 4px 12px rgba(0,255,0,0.2);
+	margin-right: 30px;
+	margin-top: 60px;
+	width: 800px;
+}
+
+.question-grid{
+	display: grid;
+	grid-template-columns: repeat(4,1fr);
+	gap: 15px;
+}
+
+.sidebar{
+	background-color: #2b2b2b;
+	padding: 20px;
+	border-radius: 20px;
+	min-height: 83vh;
+	box-shadow: 0 4px 12px rgba(0,255,0,0.2);
+	border-left: 4px solid limegreen;
+	position: sticky;
+	margin-top: 30px;
+	align-self: flex-start;
+	height: fit-content;
+}
+
+.page-container{
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 200px;
+	padding: 30px;
+	max-width: 1200px;
+	margin: auto;
+}
+
+.main-content{
+	flex: 1;
+	width: 700px;
+	max-width: 100%;
+	position: sticky;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	box-sizing: border-box;
+}
+
+p, label{
+	white-space: normal;
+	word-break: break-word;
+}
+
+.question-number{
+	display: inline-block;
+	text-align: center;
+	background-color: #1e1e1e;
+	color: white;
+	border: 2px solid limegreen;
+	border-radius: 10px;
+	padding: 10px 14px;
+	text-decoration: none;
+	margin-bottom: 10px;
+	transition: background-color 0.3s ease;
+}
+
+.question-number:hover{
+	background-color: limegreen;
+}
+
+.current-question{
+	background-color: limegreen;
+	color: black;
+	font-weight: bold;
+}
+
+.attended-question{
+	background-color: #3a5f3a;
+	border-color: #6fff6f;
+	color: white;
+}
+
+.submit-button{
+	background-color: black;
+	color: limegreen;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 20px;
+	transition: transform 0.1s ease, background-color 0.3s ease;
+	font-size: 15px;
+}
+
+.submit-button:hover{
+	background-color: limegreen;
+	color: black;
+	transform: scale(1.05);
+	box-shadow: 0 0 10px limegreen;
+}
+
+.submit-button:active{
+	transform: scale(0.95);
+	box-shadow: 0 0 5px limegreen;
+}
+
+.code-box, .info-box{
+	background-color: white;
+	padding: 30px;
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0,255,0,0.2);
+	max-width: 600px;
+	margin: 80px auto;
+	color: white;
+	text-align: center;
+}
+
+input[type="radio"]{
+	display: none;
+}
+
+input[type="radio"] + label{
+	position: relative;
+	padding-left: 35px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	color: white;
+	margin: 10px 0;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+input[type="radio"] + label::before{
+	content:'';
+	position: absolute;
+	left: 0px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 20px;
+	height: 20px;
+	border: 2px solid limegreen;
+	border-radius: 50%;
+	background-color: black;
+}
+
+input[type="radio"]:checked + label::after{
+	content: '';
+	position: absolute;
+	left: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 12px;
+	height: 12px;
+	background-color: limegreen;
+	border-radius: 50%;
+	animation: popIn 0.2s ease;
+}
+
+@keyframes popIn{
+	0%{
+		transform: translateY(-50%) scale(0.4);
+		opacity: 0.5;
+	}
+	100%{
+		transform: translateY(-50%) scale(1);
+		opacity: 1;
+	}
+}
+
+input[type="radio"] + label:hover::before{
+	box-shadow: 0 0 6px limegreen;
+	background-color: #111;
+}
+
+input[type="text"]{
+	padding: 10px;
+	border-radius: 8px;
+	border: 2px solid limegreen;
+	background-color: #1e1e1e;
+	color: white;
+	width: 100%;
+	max-width: 300px;
+}
+
+button{
+	background-color: black;
+	color: limegreen;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 20px;
+	transition: background-color 0.3s ease;
+}
+
+button:hover{
+	background-color: limegreen;
+	color: black;
+}
+
+	</style>
+</head>
+<body>
+	<div class="navbar">
+		<h3 class="navbar-title">Logged in as {{user.username}}</h3>
+		<a href="/quiz-results" style="border: 2px solid limegreen; position: absolute; right: 130px;"><i class="gg-readme" style="position: absolute; right: 85px; color: white;"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Results</a>
+		<a href="{% url 'logout' %}" style="border: 2px solid limegreen; "><i class="gg-log-out" style="position: absolute; top: 17px; right: 110px; color: white;"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+
+	</div>
+	<div>	
+		{% block content %}
+		{% endblock %}
+	</div>
+</body>
+</html>

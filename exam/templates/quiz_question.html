@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-container">
+    <div class="main-content">
+        <div class="question-box">
+            <h3>Question {{ question_num }}</h3>
+            <form method="post">
+                {% csrf_token %}
+                <p>{{ question.text }}</p>
+
+                {% if question.image %}
+                    <img src="{{ question.image.url }}" width="300"><br><br>
+                {% endif %}
+
+                <input type="radio" id="optionA" name="answer" value="A" {% if selected_answer == 'A' %}checked{% endif %}>
+                <label for="optionA"><span>{{ question.option_a }}</span></label><br>
+
+                <input type="radio" id="optionB" name="answer" value="B" {% if selected_answer == 'B' %}checked{% endif %}>
+                <label for="optionB"><span>{{ question.option_b }}</span></label><br>
+
+                <input type="radio" id="optionC" name="answer" value="C" {% if selected_answer == 'C' %}checked{% endif %}>
+                <label for="optionC"><span>{{ question.option_c }}</span></label><br>
+
+                <input type="radio" id="optionD" name="answer" value="D" {% if selected_answer == 'D' %}checked{% endif %}>
+                <label for="optionD"><span>{{ question.option_d }}</span></label><br>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    {% if question_num > 1 %}
+                        <button class="submit-button" name="prev" value="1" type="submit">Previous</button>
+                    {% else %}
+                        <div></div>
+                    {% endif %}
+
+                    <button class="submit-button" type="submit">
+                        {% if question_num < total_questions %}Next{% else %}Submit{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h4>Questions</h4>
+        <div class="question-grid">
+            {% for q in questions %}
+                {% with q_id=q.id|stringformat:"s" %}
+                    <a href="{% url 'quiz_question' quiz.id forloop.counter %}"
+                       class="question-number
+                       {% if forloop.counter == question_num %} current-question
+                       {% elif q_id in answered_ids %} attended-question
+                       {% endif %}">
+                        {{ forloop.counter }}
+                    </a>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block content%}
+<div class="info-box">
+<h2 style="color: black;">Quiz Already Submitted</h2>
+<p style="color: black;">You have already completed this quiz. Only one attempt is allowed. If this is a mistake please approach your invigilator.</p>
+<button type="submit" onclick="window.location.href='{% url 'enter-code' %}'">Back to code entry</button>
+{%endblock%}
