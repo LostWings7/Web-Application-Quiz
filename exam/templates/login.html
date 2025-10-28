@@ -5,99 +5,140 @@
 <title>Login</title>
 <link rel="stylesheet" href="{% static 'icons.css' %}">
 <style>
-	body{
-		margin:0;
-		padding: 0;
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-family: Arial, sans-serif;
-		background-color: #2b2b2b;
-	}
+    /* Import futuristic font */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
 
-	.login-container{
-		background: white;
-		padding: 25px 40px;
-		border-radius: 10px;
-		box-shadow: 0 0 10px rgba(0,0,0,0.1);
-		width: 100%;
-		max-width: 400px;
-	}
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Orbitron', sans-serif;
+        background: radial-gradient(circle at top left, #0f0f1a, #000);
+        color: #fff;
+    }
 
-	h2{
-		text-align: center;
-		margin-top: 20px;
-		margin-bottom: 20px;
-		font-size: 30px;
-	}
+    .login-container {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 40px 50px;
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(0, 255, 200, 0.3);
+        width: 100%;
+        max-width: 420px;
+        border: 1px solid rgba(0, 255, 200, 0.3);
+        backdrop-filter: blur(8px);
+    }
 
-	.form-group{
-		position: relative;
-		margin-bottom: 20px;
-	}
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        color: #00ffc8;
+        text-shadow: 0 0 15px #00ffc8;
+    }
 
-	.form-group i{
-		position: absolute;
-		top: 50%;
-		left: 10px;
-		transform: translateY(-50%);
-		color: limegreen;
-	}
+    .form-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
 
-	.form-group input{
-		width: 87%;
-		padding: 10px 10px 10px 40px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-	}
+    .form-group i {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: #00ffc8;
+        font-size: 18px;
+    }
 
-	button{
-		width: 100%;
-		padding: 10px;
-		background-color: #007bff;
-		border: none;
-		color: white;
-		border-radius: 5px;
-		cursor: pointer;
-	}
+    .form-group input {
+        width: 87%;
+        padding: 12px 12px 12px 40px;
+        border: 1px solid rgba(0, 255, 200, 0.5);
+        border-radius: 8px;
+        background: transparent;
+        color: #fff;
+        font-size: 15px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
 
-	button:hover{
-		background-color: #0056b3;
-	}
+    .form-group input:focus {
+        border-color: #00ffc8;
+        box-shadow: 0 0 10px #00ffc8;
+    }
 
-	.error{
-		color: darkred;
-		text-align: center;
-	}
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: transparent;
+        border: 2px solid #00ffc8;
+        color: #00ffc8;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
 
+    button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(0,255,200,0.3), transparent);
+        transition: all 0.5s;
+    }
+
+    button:hover::before {
+        left: 100%;
+    }
+
+    button:hover {
+        background: #00ffc8;
+        color: #000;
+        box-shadow: 0 0 20px #00ffc8, 0 0 15px #00ffc8;
+    }
+
+    .error {
+        color: #ff4d4d;
+        text-align: center;
+        margin-top: 10px;
+    }
 </style>
 </head>
 <body>
-	<div class="login-container">
-		<h2>Login</h2>
-		<form method='post'>
-			{% csrf_token %}
-			
-			<div class="form-group">
-				<i class="gg-profile"></i>
-				{{form.username}}
-			</div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <i class="gg-profile"></i>
+                {{ form.username }}
+            </div>
 
-			<div class="form-group">
-				{{form.password}}
-				<i class="gg-lock" style="top: 65%; left: 15px;"></i>
-			</div>
+            <div class="form-group">
+                <i class="gg-lock" style="top: 25px;"></i>
+                {{ form.password }}
+            </div>
 
-			<div class="form-group">
-				<i class="gg-arrow-right-o" style="color: white; left: 219px; top: 52%; pointer-events: none;"></i>
-				<button type="submit" style="text-align: left; font-size: 15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirm</button>
-			</div>
-			
-		{% if form.errors %}
-			<p class="error">Invalid username or password.</p>
-		{% endif %}
-		</form>
-	</div>
+            <div class="form-group">
+                <button type="submit">Confirm</button>
+            </div>
+            
+            {% if form.errors %}
+                <p class="error">Invalid username or password.</p>
+            {% endif %}
+        </form>
+    </div>
 </body>
 </html>

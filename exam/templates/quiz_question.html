@@ -1,46 +1,58 @@
-{% extends 'base.html' %}
 {% load static %}
-
-{% block content %}
-<div class="page-container">
+<body>
+<header>
+    <h1>Logged in as {{ user.username }}</h1>
+    <nav>
+          <a href="/home">Abort Exam</a>
+    </nav>
+</header>
+<div class="quiz-page" style="margin-top: 20px;">
+    <!-- Main Question Area -->
     <div class="main-content">
         <div class="question-box">
             <h3>Question {{ question_num }}</h3>
             <form method="post">
                 {% csrf_token %}
-                <p>{{ question.text }}</p>
+                <p class="question-text">{{ question.text }}</p>
 
                 {% if question.image %}
-                    <img src="{{ question.image.url }}" width="300"><br><br>
+                    <img src="{{ question.image.url }}" class="question-image"><br><br>
                 {% endif %}
 
-                <input type="radio" id="optionA" name="answer" value="A" {% if selected_answer == 'A' %}checked{% endif %}>
-                <label for="optionA"><span>{{ question.option_a }}</span></label><br>
+                <div class="options">
+                    <label class="option-card">
+                        <input type="radio" name="answer" value="A" {% if selected_answer == 'A' %}checked{% endif %}>
+                        <span>{{ question.option_a }}</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="answer" value="B" {% if selected_answer == 'B' %}checked{% endif %}>
+                        <span>{{ question.option_b }}</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="answer" value="C" {% if selected_answer == 'C' %}checked{% endif %}>
+                        <span>{{ question.option_c }}</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="answer" value="D" {% if selected_answer == 'D' %}checked{% endif %}>
+                        <span>{{ question.option_d }}</span>
+                    </label>
+                </div>
 
-                <input type="radio" id="optionB" name="answer" value="B" {% if selected_answer == 'B' %}checked{% endif %}>
-                <label for="optionB"><span>{{ question.option_b }}</span></label><br>
-
-                <input type="radio" id="optionC" name="answer" value="C" {% if selected_answer == 'C' %}checked{% endif %}>
-                <label for="optionC"><span>{{ question.option_c }}</span></label><br>
-
-                <input type="radio" id="optionD" name="answer" value="D" {% if selected_answer == 'D' %}checked{% endif %}>
-                <label for="optionD"><span>{{ question.option_d }}</span></label><br>
-
-                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <div class="nav-buttons">
                     {% if question_num > 1 %}
-                        <button class="submit-button" name="prev" value="1" type="submit">Previous</button>
+                        <button class="submit-button" name="prev" value="1" type="submit">⟵ Previous</button>
                     {% else %}
                         <div></div>
                     {% endif %}
-
                     <button class="submit-button" type="submit">
-                        {% if question_num < total_questions %}Next{% else %}Submit{% endif %}
+                        {% if question_num < total_questions %}Save & Next ⟶{% else %}Submit ⟶{% endif %}
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Sidebar Navigation -->
     <div class="sidebar">
         <h4>Questions</h4>
         <div class="question-grid">
@@ -58,4 +70,217 @@
         </div>
     </div>
 </div>
-{% endblock %}
+</body>
+
+<style>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid rgba(0, 255, 200, 0.3);
+      backdrop-filter: blur(6px);
+      flex-wrap: nowrap;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: #00ffc8;
+      text-shadow: 0 0 10px #00ffc8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 40vw;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      position: relative;
+      font-weight: 600;
+      transition: color 0.3s;
+      border: 2px solid #00ffc8;
+      border-radius: 999px;
+      margin: 10px;
+      padding: 8px 16px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #00ffc8;
+      color: black;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #121212;
+        color: white;
+        font-family: "Orbitron", sans-serif;
+    }
+
+    .quiz-page {
+        display: flex;
+        gap: 20px;
+        max-width: 1400px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    /* Main content (3/4 width) */
+    .main-content {
+        flex: 3;
+    }
+
+    .question-box {
+        background: #1b1b1b;
+        border: 2px solid #00ffc8;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+    .question-box h3 {
+        margin-bottom: 15px;
+        color: #00ffc8;
+        border-bottom: 1px solid #00ffc8;
+        padding-bottom: 8px;
+    }
+
+    .question-text {
+        margin-bottom: 20px;
+    }
+
+    /* Options */
+    .options {
+        display: grid;
+        gap: 15px;
+    }
+
+    .option-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 15px;
+        border: 2px solid #00ffc8;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .option-card:hover {
+        background: rgba(0, 255, 200, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .option-card input[type="radio"] {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #00ffc8;
+        border-radius: 50%;
+        position: relative;
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.2s;
+    }
+
+    .option-card input[type="radio"]:checked {
+        border-color: #00ffc8;
+    }
+
+    .option-card input[type="radio"]:checked::before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #00ffc8;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        animation: popIn 0.2s forwards;
+    }
+
+    @keyframes popIn {
+        to {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .submit-button {
+        padding: 10px 25px;
+        border: 2px solid #00ffc8;
+        border-radius: 8px;
+        background: transparent;
+        color: #00ffc8;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .submit-button:hover {
+        background: #00ffc8;
+        color: black;
+        transform: translateY(-2px);
+    }
+
+    /* Sidebar (1/4 width) */
+    .sidebar {
+        flex: 1;
+        background: #1b1b1b;
+        border: 2px solid #00ffc8;
+        border-radius: 12px;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .sidebar h4 {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #00ffc8;
+    }
+
+    .question-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+    }
+
+    .question-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        border: 1px solid #00ffc8;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #00ffc8;
+        transition: all 0.2s;
+    }
+
+    .question-number:hover {
+        background: #00ffc8;
+        color: black;
+    }
+
+    .current-question {
+        background: #00ffc8;
+        color: black;
+        font-weight: bold;
+    }
+
+    .attended-question {
+        background: rgba(0, 255, 200, 0.1);
+    }
+</style>

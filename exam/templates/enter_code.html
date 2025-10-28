@@ -1,16 +1,86 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 {% load static %}
-{%block content%}
+{% block content %}
 
-<div class="code-box">
-<h2 style="color: black;">Enter Quiz Code</h2>
-<form method="POST">
-	{%csrf_token%}
-	<input type="text" style="background-color: #dedede; color: black;" name="code" placeholder="Enter code here" required><br>
-	<button type="submit";>Start Quiz</button>
-	{% if form.errors %}
-		<p style="color: darkred;">Invalid code.</p>
-	{% endif %}
-</form>
+<div class="code-container">
+    <h2>Enter Quiz Code</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="code" placeholder="Enter code here" required>
+        <button type="submit">Start Quiz</button>
+        {% if form.errors %}
+            <p class="error">Invalid code.</p>
+        {% endif %}
+    </form>
+</div>
 
-{%endblock%}
+<style>
+/* Only applies to this page */
+.code-container {
+    margin-top: -50px;
+    padding: 30px;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #00ffc8;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+    text-align: center;
+    color: #fff;
+    backdrop-filter: blur(8px);
+}
+
+.code-container h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #00ffc8;
+    text-shadow: 0 0 8px rgba(0, 255, 200, 0.7);
+}
+
+.code-container input {
+    width: 90%;
+    padding: 12px 15px;
+    border: 1px solid #00ffc8;
+    border-radius: 8px;
+    background: #1c1c1c;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.code-container input:focus {
+    border-color: #00ffe5;
+    box-shadow: 0 0 10px #00ffe5;
+}
+
+.code-container button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #00ffc8;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.code-container button:hover {
+    background: #00e6b8;
+    transform: scale(1.03);
+}
+
+.error {
+    margin-top: 10px;
+    color: #ff4d4d;
+    font-weight: bold;
+}
+</style>
+
+{% endblock %}

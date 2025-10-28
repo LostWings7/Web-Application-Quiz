@@ -7,6 +7,7 @@ from .views import enter_code_view, quiz_question_view, quiz_submit_view
 
 urlpatterns = [
     path('enter-code/',enter_code_view,name='enter-code'),
+    path('home/',views.home,name='home'),
     path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('', auth_views.LogoutView.as_view(),name='logout'),
     path('quiz-results/',views.render_results, name='render_results'),

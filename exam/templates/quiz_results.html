@@ -1,24 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<div style="margin-top: 80px; padding: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
-	<h2 style="color:white">Your Quiz Results</h2>
-	{% for result in results %}
-	<div style="
-		background-color: white;
-		color: black;
-		padding: 20px;
-		border-radius: 12px;
-		margin-bottom: 20px;
-		box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
-	">
-		<h3>{{ result.quiz.title }}</h3>
-		<p><strong>Score: </strong> {{ result.score }} out of {{ result.quiz.questions.count }} </p>
-		<p><strong>Submitted at: </strong> {{ result.submitted_at|date:"F j, Y, g:i a" }} </p>
-	</div>
-	{% empty %}
-	<p style="color: white;">You haven't taken any quizzes yet.</p>
-	{% endfor %}
-	<a href="/enter-code" class="submit-button" style="text-decoration: none;">Back to Home</a>
-	</div>
+<div class="results-container">
+    <h2 class="results-title">Your Quiz Results</h2>
+
+    {% for result in results %}
+    <div class="result-card">
+        <h3>{{ result.quiz.title }}</h3>
+        <p><strong>Score:</strong> {{ result.score }} / {{ result.quiz.questions.count }}</p>
+        <p><strong>Submitted at:</strong> {{ result.submitted_at|date:"F j, Y, g:i a" }}</p>
+    </div>
+    {% empty %}
+    <p class="no-results">You haven't taken any quizzes yet.</p>
+    {% endfor %}
+
+    <a href="/home" class="btn">← Back to Home</a>
 </div>
-{% endblock %}
+
+<style>
+	.results-container {
+		margin-top: -50px;
+		padding: 20px;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+</style>
+{% endblock %}	

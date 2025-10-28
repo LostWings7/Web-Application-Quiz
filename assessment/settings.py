@@ -127,7 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #login page
 LOGIN_URL = ''
-LOGIN_REDIRECT_URL = '/enter-code'
+LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL='/'
 
 #Media support

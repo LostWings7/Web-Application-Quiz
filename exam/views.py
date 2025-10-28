@@ -16,10 +16,14 @@ import random
 import csv
 import json
 
+
+def home(request):
+    return render(request, 'home.html')
+
 @login_required 
 def main(request): 
 	username = request.user.username 
-	template = loader.get_template('main.html') 
+	template = loader.get_template('base.html') 
 	context = {'username': username} 
 	return HttpResponse(template.render(context, request))
 
